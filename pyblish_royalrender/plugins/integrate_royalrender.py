@@ -48,7 +48,6 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
                 # Sanitize path separators
                 if isinstance(value, basestring):
                     value = value.replace("\\", "/")
-                    self.log.debug(value)
 
                 self.sub_element(element, key, value)
 

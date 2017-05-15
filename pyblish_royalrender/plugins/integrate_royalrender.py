@@ -104,10 +104,13 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
 
         # Windows arguments
         if platform.system() == "Windows":
-            arguments.extend([
+            arguments.append(
                 os.path.join(rr_root, "bin", "win", "rrStartLocal.exe"),
-                "rrSubmitterConsole.exe"
-            ])
+            )
+            if "pyblishRoyalRenderUI" in context.data:
+                arguments.append("rrSubmitter.exe")
+            else:
+                arguments.append("rrSubmitterConsole.exe")
 
         arguments.append(xml_path)
 
@@ -128,3 +131,16 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
 
         output = proc.stdout.read()
         self.log.debug(output)
+
+
+class PyblishRoyalRenderDisplayUI(pyblish.api.ContextPlugin):
+    """ Setting plugin for displaying the submitter UI """
+
+    order = PyblishRoyalRenderIntegrate.order - 0.1
+    label = "Display Royal Render Submitter"
+    active = False
+    optional = True
+
+    def process(self, context):
+
+        context.data["pyblishRoyalRenderUI"] = True

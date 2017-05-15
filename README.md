@@ -17,6 +17,8 @@ Exported from rrControl:
 <RR_Job_File syntax_version="6.0">
 <Job>
     <Software>     Maya     </Software>
+    <Priority>     84     </Priority>
+    <RRO_Overwriteexistingfiles>     true     </RRO_Overwriteexistingfiles>
 </Job>
 </RR_Job_File>
 ```
@@ -26,5 +28,13 @@ Data that generated the above job:
 ```python
 instance.data["royalrenderData"] = {
   "Software": "Maya"
+  "SubmitterParameter": [
+      "Priority=1~84",
+      "OverwriteExistingFiles=1~1"
+  ]
 }
 ```
+
+String values will be sanitized for backslashes:
+
+```path\to\file``` > ```path/to/file```

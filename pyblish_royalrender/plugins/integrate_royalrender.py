@@ -44,9 +44,15 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
                 self.dict_to_elements(
                     value, self.sub_element(element, key, "")
                 )
+            if isinstance(value, list):
+                for item in value:
+                    # Sanitize path separators
+                    item = item.replace("\\", "/")
+
+                    self.sub_element(element, key, item)
             else:
-                # Sanitize path separators
                 if isinstance(value, basestring):
+                    # Sanitize path separators
                     value = value.replace("\\", "/")
 
                 self.sub_element(element, key, value)

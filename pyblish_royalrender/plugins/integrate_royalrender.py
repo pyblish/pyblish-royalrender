@@ -51,16 +51,6 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
 
                 self.sub_element(element, key, value)
 
-    def get_arguments(self):
-        rr_root = os.environ["RR_Root"]
-
-        # Windows arguments
-        if platform.system() == "Windows":
-            return [
-                os.path.join(rr_root, "bin", "win", "rrStartLocal.exe"),
-                "rrSubmitterConsole.exe"
-            ]
-
     def process(self, context):
 
         # Root element
@@ -108,7 +98,17 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
             self.log.debug(f.read())
 
         # Submitting to RoyalRender
-        arguments = self.get_arguments()
+        arguments = []
+
+        rr_root = os.environ["RR_Root"]
+
+        # Windows arguments
+        if platform.system() == "Windows":
+            arguments.extend([
+                os.path.join(rr_root, "bin", "win", "rrStartLocal.exe"),
+                "rrSubmitterConsole.exe"
+            ])
+
         arguments.append(xml_path)
 
         startupinfo = None

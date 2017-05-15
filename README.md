@@ -38,3 +38,5 @@ instance.data["royalrenderData"] = {
 String values will be sanitized for backslashes:
 
 ```path\to\file``` > ```path/to/file```
+
+You can also force the showing of the submission UI, by checking the ```Display Royal Render Submitter``` plugin.

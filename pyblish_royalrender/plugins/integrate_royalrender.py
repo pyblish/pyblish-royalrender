@@ -69,6 +69,7 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
         self.sub_element(root_element, "DeleteXML", "1")
 
         # Job element
+        job_count = 0
         for instance in context:
 
             # Only consider enabled instances
@@ -86,6 +87,11 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
             self.dict_to_elements(
                 instance.data["royalrenderData"], job_element
             )
+            job_count += 1
+
+        # Skip further processing if there are not any jobs
+        if not job_count:
+            return
 
         # Writing to disk
         tree_element = ElementTree(root_element)

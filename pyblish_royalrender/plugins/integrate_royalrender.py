@@ -46,15 +46,8 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
                 )
             if isinstance(value, list):
                 for item in value:
-                    # Sanitize path separators
-                    item = item.replace("\\", "/")
-
                     self.sub_element(element, key, item)
             else:
-                if isinstance(value, basestring):
-                    # Sanitize path separators
-                    value = value.replace("\\", "/")
-
                 self.sub_element(element, key, value)
 
     def process(self, context):

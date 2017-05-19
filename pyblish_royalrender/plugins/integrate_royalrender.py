@@ -122,13 +122,9 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
 
         proc = subprocess.Popen(
             arguments,
-            stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
             startupinfo=startupinfo
         )
-        proc.stdin.close()
-        proc.stderr.close()
 
         output = proc.stdout.read()
         self.log.debug(output)

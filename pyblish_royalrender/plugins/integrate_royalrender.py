@@ -110,6 +110,8 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
                 arguments.append("rrSubmitter.exe")
             else:
                 arguments.append("rrSubmitterConsole.exe")
+        else:
+            raise ValueError("Only Windows is currently supported.")
 
         arguments.append(xml_path)
 

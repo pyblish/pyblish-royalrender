@@ -1,5 +1,7 @@
 # pyblish-royalrender
 
+**CURRENTLY ONLY WINDOWS IS SUPPORTED**
+
 ## Setup
 
 The environment variable ```RR_Root``` is required to point to the global installation of Royal Render.

@@ -126,8 +126,9 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
             startupinfo=startupinfo
         )
 
-        output = proc.stdout.read()
-        self.log.debug(output)
+        # Blocks until finished..
+        for line in iter(proc.stdout.readline, b""):
+            self.log.debug(line)
 
 
 class PyblishRoyalRenderDisplayUI(pyblish.api.ContextPlugin):

@@ -4,7 +4,7 @@ import pyblish.api
 
 
 class PyblishRoyalRenderValidate(pyblish.api.ContextPlugin):
-    """ Validates the installation of Royal Render. """
+    """ Validates the installation of Royal Render."""
 
     order = pyblish.api.ValidatorOrder
     label = "Royal Render"

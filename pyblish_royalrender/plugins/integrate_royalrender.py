@@ -9,7 +9,7 @@ import pyblish.api
 
 
 class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
-    """ Submits to Royal Render. """
+    """Submits to Royal Render."""
 
     order = pyblish.api.IntegratorOrder
     label = "Royal Render"
@@ -133,7 +133,7 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
 
 
 class PyblishRoyalRenderDisplayUI(pyblish.api.ContextPlugin):
-    """ Setting plugin for displaying the submitter UI """
+    """Setting plugin for displaying the submitter UI."""
 
     order = PyblishRoyalRenderIntegrate.order - 0.1
     label = "Display Royal Render Submitter"

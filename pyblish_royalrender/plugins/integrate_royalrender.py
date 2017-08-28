@@ -1,10 +1,3 @@
-import os
-from xml.etree.ElementTree import ElementTree, Element, SubElement
-import uuid
-import tempfile
-import platform
-import subprocess
-
 import pyblish.api
 
 
@@ -31,6 +24,8 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
         return True
 
     def sub_element(self, r, e, text):
+        from xml.etree.ElementTree import SubElement
+
         sub = SubElement(r, e)
         if (type(text) == unicode):
             sub.text = text.encode('utf8')
@@ -51,6 +46,12 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
                 self.sub_element(element, key, value)
 
     def process(self, context):
+        import os
+        from xml.etree.ElementTree import ElementTree, Element
+        import uuid
+        import tempfile
+        import platform
+        import subprocess
 
         # Root element
         root_element = Element("rrJob_submitFile")

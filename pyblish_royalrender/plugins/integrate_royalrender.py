@@ -58,8 +58,8 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
         root_element.attrib["syntax_version"] = "6.0"
         self.sub_element(root_element, "DeleteXML", "1")
 
-        # Job element
-        job_count = 0
+        # Collect jobs
+        jobs = []
         for instance in context:
 
             # Only consider enabled instances
@@ -73,15 +73,28 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
                 self.log.debug(msg)
                 continue
 
-            job_element = self.sub_element(root_element, "Job", "")
-            self.dict_to_elements(
-                instance.data["royalrenderData"], job_element
-            )
-            job_count += 1
+            if instance.data.get("royalrenderData", {}):
+                jobs.append(instance.data["royalrenderData"])
+
+            jobs.extend(instance.data.get("royalrenderJobs", []))
 
         # Skip further processing if there are not any jobs
-        if not job_count:
+        if not jobs:
             return
+
+        # Order jobs by PreID
+        jobs_ordered = {}
+        for job in jobs:
+            preid = str(job.get("PreID", 0))
+            if preid in jobs_ordered.keys():
+                jobs_ordered[preid].append(job)
+            else:
+                jobs_ordered[preid] = [job]
+
+        for count in range(0, len(jobs_ordered.keys())):
+            for job in jobs_ordered[str(count)]:
+                job_element = self.sub_element(root_element, "Job", "")
+                self.dict_to_elements(job, job_element)
 
         # Writing to disk
         tree_element = ElementTree(root_element)
@@ -104,13 +117,11 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
 
         # Windows arguments
         if platform.system() == "Windows":
-            arguments.append(
-                os.path.join(rr_root, "bin", "win", "rrStartLocal.exe"),
-            )
+            root = os.path.join(rr_root, "bin", "win64")
             if "pyblishRoyalRenderUI" in context.data:
-                arguments.append("rrSubmitter.exe")
+                arguments.append(os.path.join(root, "rrSubmitter.exe"))
             else:
-                arguments.append("rrSubmitterConsole.exe")
+                arguments.append(os.path.join(root, "rrSubmitterConsole.exe"))
         else:
             raise ValueError("Only Windows is currently supported.")
 

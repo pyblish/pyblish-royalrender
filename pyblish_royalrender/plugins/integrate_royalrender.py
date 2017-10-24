@@ -139,8 +139,14 @@ class PyblishRoyalRenderIntegrate(pyblish.api.ContextPlugin):
         )
 
         # Blocks until finished..
+        errors = []
         for line in iter(proc.stdout.readline, b""):
             self.log.debug(line)
+            if "error" in line.lower():
+                errors.append(line)
+
+        if errors:
+            raise ValueError(errors)
 
 
 class PyblishRoyalRenderDisplayUI(pyblish.api.ContextPlugin):
